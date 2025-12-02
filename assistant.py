@@ -22,11 +22,40 @@ greatings = ["Вітаю, Сер! Готовий відповідати/допо
 
 jokes = ["Жарт 1", "Жарт 2", "Жарт 3"]
 
+empty = [
+    "Тапниі по клаві, хоч одну клавішу",
+    "Ви нічого не сказали! Спробуйте ще раз)",
+    "Дайте якесь завдання, а не пустий рядок!"
+]
+
+unknown = [
+    "Я нічерта не зрозумєв, Гріша, давай по новой)",
+    "Жодного тегу не розпізнано, напишіть правильний тег!",
+    "Не розумію, що Ви хочете. Що це має значити?",
+    "Це виходить за межі моїх можливостей наразі",
+    "Не можу обробити цей запит. Спробуйте інше формулювання"
+]
+
+motivs = [
+    "Через 20 років ви будете більше розчаровані тими речами, які ви не робили, ніж тими, які ви зробили.",
+    "Щоб дійти до мети, людині потрібно тільки одне — йти.",
+    "Якщо ти можеш про це мріяти, то ти можеш це зробити."
+]
+
 def random_joke():
     return random.choice(jokes)
 
 def random_greating():
     return random.choice(greatings)
+
+def random_empty():
+    return random.choice(empty)
+
+def random_unknown():
+    return random.choice(unknown)
+
+def random_motive():
+    return random.choice(motivs)
 
 def analyze_text(text):
     if not text:
@@ -41,27 +70,28 @@ def analyze_text(text):
         return "time"
     elif "бувай" in text or "до зустрічі" in text:
         return "exit"
-    return "unknown"
-
+    else:
+        return None
 
 def get_response(text):
     t = text.lower()
     tag = analyze_text(t)
     
-    if "empty" in tag:
-        return f"{NAME}: Ви нічого не сказали! Спробуйте ще раз)"
-    if "joke" in tag:
-        return f"{NAME}: {random_joke()}"
-    if "money" in tag:
-        return f"{NAME}: На вашій карті: {random.randint(0, 100000)}₴ гривень." #return f"{NAME}: На вашій карті: " + str(random.randint(0, 100000)) + " гривень."
-    if "motivate" in tag:
-        return f"{NAME}: Ось Вам порада - Через 20 років ви будете більше розчаровані тими речами, які ви не робили, ніж тими, які ви зробили."
-    if "time" in tag:
-        return f"{NAME}: Зараз {datetime.now().strftime("%H:%M")}"
-    if "exit" in tag:
+    if tag is None:
+        return f"{NAME}: {random_unknown()}"
+    elif "empty" in tag:
+        return f"{NAME}: {random_empty()}"
+    elif "joke" in tag:
+        return f"{NAME}: Ось Вам жарт - {random_joke()}"
+    elif "money" in tag:
+        return f"{NAME}: На вашій карті: {random.randint(0, 100000)}₴ гривень."
+    elif "motivate" in tag:
+        return f"{NAME}: Ось Вам порада - {random_motive()}"
+    elif "time" in tag:
+        return f"{NAME}: Зараз - {datetime.now().strftime('%H:%M')}"
+    elif "exit" in tag:
         return "exit"
-    return f"{NAME}: Не розумію, що Ви хочете. Що це має значити?"
-
+    return f"{NAME}: {random_unknown()}"
 
 def main():
     print(PERSONALITY)
@@ -73,7 +103,6 @@ def main():
             print(f"{NAME}: Бувайте. Чекаю на Вас! :)")
             break
         print(response)
-
 
 if __name__ == "__main__":
     main()
