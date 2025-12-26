@@ -77,7 +77,7 @@ motivs = [
 ]
 
 def add_note():
-    print(f"{NAME}: Напишіть що треба зберегти")
+    print(f"{NAME}: Напишіть що треба зберегти і я збережу")
     text = input(f"ALEXEY: ")
     with open("notes.txt", "a", encoding="utf-8") as f:
         f.write(text + "\n")
@@ -135,7 +135,7 @@ def add_fact_about_me(user_data):
     fact = input(f"ALEXEY: ").strip()
     
     if not fact:
-        return f"{NAME}: Факт не може бути порожнім!"
+        return f"{NAME}: Факт не може бути порожнім, давайте напишіть хоча б пару букв!"
     
     if "facts" not in user_data:
         user_data["facts"] = []
